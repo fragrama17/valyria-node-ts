@@ -1,0 +1,55 @@
+{
+  "counters": [
+    {
+      "id": "1",
+      "iban": "SA4420000001234567891234",
+      "features": [
+        {
+          "name": "MAX_DAY",
+          "counter": 50.00,
+          "reportable": false
+        },
+        {
+          "name": "MAX_WEEK",
+          "counter": 250.00,
+          "reportable": true
+        }
+      ]
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "name": "CARD_STANDARD",
+      "features": [
+        "INIT",
+        "COUNTERS",
+        "BALANCE"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "CARD_PREMIUM",
+      "features": [
+        "INIT"
+      ]
+    }
+  ],
+  "balances": [
+    {
+      "id": "1",
+      "iban": "SA4420000001234567891234",
+      "balance": 12023.89
+    }
+  ],
+  "features": [
+    {
+      "name": "INIT",
+      "amount": 1.00
+    },
+    {
+      "name": "MAXIMUM",
+      "amount": 100000.00
+    }
+  ]
+}

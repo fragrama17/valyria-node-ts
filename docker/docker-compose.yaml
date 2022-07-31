@@ -1,0 +1,19 @@
+version: "3.6"
+services:
+  json-server:
+    build:
+      context: ./json-server
+      dockerfile: ./Dockerfile
+    ports:
+      - "3030:3030"
+  mongo:
+    build:
+      context: ./mongo
+      dockerfile: ./Dockerfile
+  valda:
+    build:
+      context: ./valda
+      dockerfile: ./Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on: [ mongo,json-server ]
