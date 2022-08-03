@@ -3,11 +3,6 @@ scalable account features validator for bank-transfers exposing RESTful APIs; ba
 
 TODO:
 
+-middleware for b security-token
 
--finalize docker
-
-PUSH !
-
--middleware for body validations security-token
-
--batch
+-batch retry updating states
