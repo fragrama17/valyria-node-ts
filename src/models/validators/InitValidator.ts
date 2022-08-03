@@ -1,20 +1,38 @@
 import {SimpleFeature, Validator, ValidatorOutcome} from "../validator";
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 import {mocksUrl} from "../../config/dev";
 
 export class InitValidator implements Validator<SimpleFeature> {
 
-    getFeatures(iban: string, product: string): Promise<SimpleFeature[]> {
-        //TODO refactor this log with decorator
-        console.log('fetching simpleFeature', product);
-        return axios.get(mocksUrl + '/features?name=' + product.toLowerCase());
+    getFeatures(iban: string, product: string): Promise<AxiosResponse<SimpleFeature[]>> {
+        return axios.get<SimpleFeature[]>(mocksUrl + '/features?name=' + product);
     }
 
     validate(amount: number, features: SimpleFeature[]): ValidatorOutcome {
-        console.log('logging initValidator feature', features);
+        const initAmount = features[0].amount;
+        let error = {
+            code: '',
+            description: ''
+        }
+        const isValid = amount >= initAmount;
+        if (!isValid) {
+            error.code = 'IN00';
+            error.description = 'minimum amount required ' + initAmount.toFixed(2)
+                + ', but was ' + amount.toFixed(2);
+            return {
+                isValid: isValid,
+                error
+            };
+        }
+
         return {
-            isValid: amount > features[0].amount
+            isValid: isValid
         };
+
+    }
+
+    updateState(amount: number, iban: string, features: SimpleFeature[]): void {
+        //nothing to update
     }
 
 }

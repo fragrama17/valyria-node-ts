@@ -7,13 +7,18 @@ services:
     ports:
       - "3030:3030"
   mongo:
+    image: 'mongo'
+    volumes:
+      - data:/data/db
+    ports:
+      - "666:27017"
+  valyria:
     build:
-      context: ./mongo
-      dockerfile: ./Dockerfile
-  valda:
-    build:
-      context: ./valda
+      context: ../../valyria-node-ts
       dockerfile: ./Dockerfile
     ports:
       - "3000:3000"
     depends_on: [ mongo,json-server ]
+
+volumes:
+  data:

@@ -6,12 +6,12 @@
       "features": [
         {
           "name": "MAX_DAY",
-          "counter": 50.00,
+          "counter": 70,
           "reportable": false
         },
         {
           "name": "MAX_WEEK",
-          "counter": 250.00,
+          "counter": 470,
           "reportable": true
         }
       ]
@@ -21,6 +21,7 @@
     {
       "id": "1",
       "name": "CARD_STANDARD",
+      "iban": "SA4420000001234567891234",
       "features": [
         "INIT",
         "COUNTERS",
@@ -30,26 +31,38 @@
     {
       "id": "2",
       "name": "CARD_PREMIUM",
+      "iban": "SA4420000001234567891234",
       "features": [
         "INIT"
       ]
+    },
+    {
+      "id": "3",
+      "name": "CARD_DELUXE",
+      "iban": "SA4420000001234567891234",
+      "features": []
     }
   ],
   "balances": [
     {
       "id": "1",
       "iban": "SA4420000001234567891234",
-      "balance": 12023.89
+      "balance": 11948.89
+    },
+    {
+      "id": 3423423,
+      "iban": "iban",
+      "balance": 0
     }
   ],
   "features": [
     {
       "name": "INIT",
-      "amount": 1.00
+      "amount": 1
     },
     {
       "name": "MAXIMUM",
-      "amount": 100000.00
+      "amount": 100000
     }
   ]
 }
