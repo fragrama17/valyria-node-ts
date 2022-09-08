@@ -14,4 +14,5 @@ connect(dbUri)
     .then(() => app.listen(3000, () => {
         console.log('Connected to mongoDB locally')
         console.log('Listening on port 3000');
-    }));
+    }))
+    .catch(err => console.log('error starting the server', err));

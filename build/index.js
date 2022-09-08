@@ -16,4 +16,5 @@ app.use('/api/v1', valyria_1.router);
     .then(function () { return app.listen(3000, function () {
     console.log('Connected to mongoDB locally');
     console.log('Listening on port 3000');
-}); });
+}); })
+    .catch(function (err) { return console.log('error starting the server', err); });

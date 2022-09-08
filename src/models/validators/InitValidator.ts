@@ -4,12 +4,13 @@ import {mocksUrl} from "../../config/dev";
 
 export class InitValidator implements Validator<SimpleFeature> {
 
-    getFeatures(iban: string, product: string): Promise<AxiosResponse<SimpleFeature[]>> {
-        return axios.get<SimpleFeature[]>(mocksUrl + '/features?name=' + product);
+    getFeatures(iban: string): Promise<AxiosResponse<SimpleFeature>> {
+        return axios.get(mocksUrl + `/features/${iban}`);
     }
 
-    validate(amount: number, features: SimpleFeature[]): ValidatorOutcome {
-        const initAmount = features[0].amount;
+    validate(amount: number, features: SimpleFeature): ValidatorOutcome {
+        console.log(features);
+        const initAmount = features.list.find(value => value.name === 'INIT')?.amount || 0;
         let error = {
             code: '',
             description: ''
@@ -31,7 +32,7 @@ export class InitValidator implements Validator<SimpleFeature> {
 
     }
 
-    updateState(amount: number, iban: string, features: SimpleFeature[]): void {
+    updateState(amount: number, iban: string, features: SimpleFeature): void {
         //nothing to update
     }
 

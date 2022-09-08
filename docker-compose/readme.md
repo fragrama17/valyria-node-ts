@@ -2,5 +2,5 @@
 
 --------------------------
 --------------------------
-in order to run the app run the following command from a terminal:
+in order to run the app, run from this directory the following command:
 ### docker compose up 

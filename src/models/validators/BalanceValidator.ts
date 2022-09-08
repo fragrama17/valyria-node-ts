@@ -3,25 +3,25 @@ import axios, {AxiosResponse} from "axios";
 import {mocksUrl} from "../../config/dev";
 
 export interface BalanceFeature {
-    id: number,
+    id: string,
     balance: number,
-    iban: string
 }
 
 export class BalanceValidator implements Validator<BalanceFeature> {
 
-    getFeatures(iban: string, productFeature: string): Promise<AxiosResponse<BalanceFeature[]>> {
-        return axios.get(mocksUrl + '/balances?iban=' + iban);
+    getFeatures(iban: string): Promise<AxiosResponse<BalanceFeature>> {
+        return axios.get(mocksUrl + `/balances/${iban}`);
     }
 
-    validate(amount: number, features: BalanceFeature[]): ValidatorOutcome {
+    validate(amount: number, features: BalanceFeature): ValidatorOutcome {
         let isVal = true;
         let error = {code: 'VB_01', description: ''};
-        const balance = features[0].balance;
+        const balance = features.balance;
 
         if (amount > balance) {
             isVal = false;
-            error.description = 'balance not sufficient ' + amount.toFixed(2) + ' > ' + balance.toFixed(2);
+            error.description = 'balance not sufficient ' + amount.toFixed(2) +
+                ' > ' + balance.toFixed(2);
         }
 
         if (!error.description)
@@ -33,12 +33,10 @@ export class BalanceValidator implements Validator<BalanceFeature> {
         };
     }
 
-    updateState(amount: number, iban: string, features: BalanceFeature[]): void {
-        const id = features[0].id;
-        const balance = features[0].balance;
-        axios.put<any, any, BalanceFeature>(mocksUrl + '/balances/' + id, {
-                id: id,
-                iban: iban,
+    updateState(amount: number, iban: string, features: BalanceFeature): void {
+        const balance = features.balance;
+        axios.put<any, any, BalanceFeature>(mocksUrl + '/balances/' + iban, {
+                id: iban,
                 balance: balance - amount
             }
         ).then(() => console.log('balance updated successfully'))

@@ -3,8 +3,7 @@ import {Validator, ValidatorOutcome} from "../validator";
 import {mocksUrl} from "../../config/dev";
 
 export interface CountersFeature {
-    id: number,
-    iban: string,
+    id: string,
     features: [
         {
             name: string,
@@ -16,19 +15,20 @@ export interface CountersFeature {
 
 export class CountersValidator implements Validator<CountersFeature> {
 
-    getFeatures(iban: string, product: string): Promise<AxiosResponse<CountersFeature[]>> {
-        return axios.get<CountersFeature[]>(mocksUrl + '/counters?iban=' + iban);
+    getFeatures(iban: string): Promise<AxiosResponse<CountersFeature>> {
+        return axios.get(mocksUrl + `/counters/${iban}`);
     }
 
-    validate(amount: number, features: CountersFeature[]): ValidatorOutcome {
-        const counters = features[0].features;
+    validate(amount: number, features: CountersFeature): ValidatorOutcome {
+        const counters = features.features;
         let isVal = true;
         let error = {code: 'VC_01', description: ''};
 
         counters.forEach(c => {
             if (amount > c.counter) {
                 isVal = false;
-                error.description += 'counter limit ' + c.name + ' reached: ' + amount.toFixed(2) + ' > ' + c.counter.toFixed(2) + ', ';
+                error.description += 'counter limit ' + c.name + ' reached: ' + amount.toFixed(2) +
+                    ' > ' + c.counter.toFixed(2) + ', ';
             }
         });
 
@@ -41,13 +41,11 @@ export class CountersValidator implements Validator<CountersFeature> {
         };
     }
 
-    updateState(amount: number, iban: string, features: CountersFeature[]): void {
-        const id = features[0].id;
-        const countersFeatures = features[0].features;
+    updateState(amount: number, iban: string, features: CountersFeature): void {
+        const countersFeatures = features.features;
         countersFeatures.map(cf => cf.counter = cf.counter - amount);
-        axios.put<any, any, CountersFeature>(mocksUrl + '/counters/' + id, {
-                id: id,
-                iban: iban,
+        axios.put<any, any, CountersFeature>(mocksUrl + '/counters/' + iban, {
+                id: iban,
                 features: countersFeatures
             }
         ).then(() => console.log('counters updated successfully'))
